@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ Mobile scaling -->
+  <title>Lovers Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #ffe6e6;
+      overflow: hidden;
+    }
+
+    .container {
+      margin-top: 15vh;
+      padding: 0 15px;
+    }
+
+    input {
+      padding: 12px;
+      margin: 8px auto;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 18px;
+      width: 80%;
+      max-width: 300px;
+      display: block;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #ff4d6d;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Floating hearts background */
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 6s infinite ease-in;
+      opacity: 0.7;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Popup modal */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      transition: transform 0.5s ease-in-out;
+      z-index: 10;
+      max-width: 90%;
+    }
+    .popup a{
+      text-decoration: none;
+      color: black;
+    }
+    .btn {
+      transition: transform 0.2s ease;
+    }
+    .btn:hover {
+       transform: scale(1.1);
+    }
+    .popup img {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 15px;
+    }
+
+    .popup.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Number pad */
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .numpad button {
+      font-size: 20px;
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 400px) {
+      .numpad {
+        grid-template-columns: repeat(3, 70px);
+        gap: 10px;
+      }
+      .numpad button {
+        font-size: 18px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login form -->
+  <div class="container" id="loginForm">
+    <h2>💌 Unlock it!</h2>
+    <input type="password" id="password" placeholder="Enter Password" readonly><br>
+
+    <!-- Number pad -->
+    <div class="numpad">
+      <button onclick="addDigit('1')">1</button>
+      <button onclick="addDigit('2')">2</button>
+      <button onclick="addDigit('3')">3</button>
+      <button onclick="addDigit('4')">4</button>
+      <button onclick="addDigit('5')">5</button>
+      <button onclick="addDigit('6')">6</button>
+      <button onclick="addDigit('7')">7</button>
+      <button onclick="addDigit('8')">8</button>
+      <button onclick="addDigit('9')">9</button>
+      <button onclick="clearPassword()">⌫</button>
+      <button onclick="addDigit('0')">0</button>
+      <button onclick="checkLogin()">✔</button>
+    </div>
+
+    <div class="error" id="error"></div>
+  </div>
+
+  <!-- Hearts background -->
+  <div class="hearts" id="hearts"></div>
+
+  <!-- Popup photo -->
+  <div class="popup" id="popup">
+    <img src="Photo/photo_2025-04-19_12-07-35.jpg" alt="Couple Photo">
+    <p>Knock Knock...Open me up !!!</p>
+    <button class="btn">
+      <a href="HBD.html">Open it!</a>
+    </button>
+  </div>
+
+  <script>
+    function createHearts() {
+      const heartsContainer = document.getElementById("hearts");
+      setInterval(() => {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        heartsContainer.appendChild(heart);
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }, 300);
+    }
+
+    function addDigit(digit) {
+      let passwordField = document.getElementById("password");
+      passwordField.value += digit;
+    }
+
+    function clearPassword() {
+      let passwordField = document.getElementById("password");
+      passwordField.value = passwordField.value.slice(0, -1);
+    }
+
+    function checkLogin() {
+      let password = document.getElementById("password").value;
+      let error = document.getElementById("error");
+      let loginForm = document.getElementById("loginForm");
+      let popup = document.getElementById("popup");
+
+      let correctPassword = "11221";// set your password here
+
+      if (password === correctPassword) {
+        loginForm.classList.add("hidden");
+        createHearts();
+        popup.classList.add("show");
+        error.textContent = "";
+      } else {
+        error.textContent = "❌ Wrong Password!";
+      }
+    }
+  </script>
+</body>
+</html>

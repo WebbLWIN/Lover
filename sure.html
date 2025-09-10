@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retry Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #ffe6e6, #fff0f5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .frame {
+      background: #fff;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 700px;
+      text-align: left;
+      animation: fadeIn 1s ease-in-out;
+      position: relative;
+      z-index: 1;
+    }
+
+    .frame h1 {
+      text-align: center;
+      color: #ff4d6d;
+      margin-bottom: 20px;
+    }
+
+    .frame p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Bottom section (image left, text + button right) */
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .bottom img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .bottom-text {
+      flex: 1;
+      text-align: center;
+    }
+
+    .bottom-text p {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #ff4d6d;
+    }
+
+    .bottom-text input[type="button"] {
+      background: #ff4d6d;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255,77,109,0.4);
+    }
+    .bottom-text input[type="button"]:hover {
+      background: #e63950;
+      transform: scale(1.05);
+    }
+
+    /* Floating hearts background */
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 6s infinite ease-in;
+      opacity: 0.7;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(1) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.5) rotate(45deg); opacity: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 600px) {
+      .bottom { flex-direction: column; align-items: center; }
+      .bottom img { width: 150px; height: 150px; }
+      .bottom-text { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="frame">
+    <h1>My Love Letter 💌</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. 
+      Cupiditate dolores et aliquid magni voluptas esse laborum. 
+      This is where your real love paragraph goes ❤️.
+    </p>
+    <p>
+        fdjfjdkjflkjskldfksdfjsjflksjfdk jkj lkskjlfsk 
+    </p>
+
+    <div class="bottom">
+      <img src="Photo/photo_2025-01-05_00-01-12.jpg" alt="Couple Photo">
+      <div class="bottom-text">
+        <p>Thanks u for coming into my life bby</p>
+        <input type="button" value="Start again ?" onclick="window.location.href='First.html'">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function createHearts() {
+      const heartsContainer = document.getElementById("hearts");
+      setInterval(() => {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+      }, 300);
+    }
+    createHearts();
+  </script>
+</body>
+</html>
